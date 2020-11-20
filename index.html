@@ -23,17 +23,17 @@
   height: 90px;
   width: 250px;
 }
-p {
+p, li {
     margin-top: 3px;
   margin-bottom: 3px; /* between paragraphs */
-  font-family: "Google Sans", "Open Sans", Arial, Helvetica, sans-serif;
+  font-family: "apercu",sans-serif; /*  "Arial Rounded MT";*/
   }
 
 
   .d3-tip {
     line-height: 1.5;
     font-weight: 400;
-    font-family:"avenir next", Arial, sans-serif;
+    font-family: "Arial Rounded MT Bold";
     padding: 6px;
     background: rgba(0, 0, 0, 0.6);
     color: #3cff00;
@@ -41,51 +41,168 @@ p {
     pointer-events: none;
   }
 
-  .dropdowns, text , li, label, b{
+  .dropdowns, text ,  label{
     font-family: "Google Sans", "Open Sans", Arial, Helvetica, sans-serif;
+}
+
+
+body {
+    display: block;
+    margin: 20px;
+}
+.title {
+    text-align: center;
+    color:#793030;
+    font-size: xx-large;
+    font-family: "Arial Rounded MT Bold";
+    margin-bottom: 4px;
+}
+
+.names {
+    text-align: center;
+    color: #000000;
+    font-size: large;
+    font-family: "Arial Rounded MT Bold";
+    margin-bottom: 4px;
+}
+
+
+#myInput {
+  box-sizing: border-box;
+  background-image: url('searchicon.png');
+  background-position: 14px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 14px 20px 12px 45px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  width: 300px;
+}
+
+/* The search field when it gets focus/clicked on */
+#myInput:focus {outline: 3px solid #ddd;}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f6f6f6;
+  min-width: 230px;
+  border: 1px solid #ddd;
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+
+
+
+
+.dropdown {
+  background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+  background-position: 10px 12px; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
+  width: 300px; /* Full-width */
+  font-size: 16px; /* Increase font-size */
+  /* padding: 12px 20px 12px 40px; /* Add some padding */
+  /* border: 1px solid #ddd; Add a grey border */ 
+  margin-bottom: 12px; /* Add some space below the input */
+}
+
+
+.dropbtn {
+  background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+  background-position: 10px 12px; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
+  width: 300px; /* Full-width */
+  font-size: 16px; /* Increase font-size */
+  padding: 12px 20px 12px 40px; /* Add some padding */
+  border: 1px solid #ddd; /* Add a grey border */
+  margin-bottom: 12px; /* Add some space below the input */
 }
   </style>
 </head>
 
-<body>
+<body style="background-attachment: fixed; width: 1200px;">
 
-	<head>
+	<head style="width: 758px"> 
         <br>
-        <b style="font-size:20px">Sentiment Analysis by Book</b>
+        <h1 class="title" style=" width: 757px">Sentiment Analysis by Book</h1>
       </head>
       <br>
+
+      <div class="dropdown">
+
+        <button onclick="myFunction()" class="dropbtn"><strong>Click Here to Select a Book</strong></button>
+        <div id="myDropdown" class="dropdown-content">
+          <input type="text" placeholder="Search for a book..." id="myInput" onkeyup="filterFunction()">
+
+        </div>
+      </div>
+  
       <br>
-    <!-- Dropdown -->
-    <label for="dropdowns">Choose a book:</label>
-    <select id="dropdowns">
-        <option value=""></option>
+      
+      <h3 id = "TotalTitle" style="text-align: left; font-weight: bold;  font-family: Arial Rounded MT Bold;"></h3>
+      <br>
+      <table style="width: 758px">
+    <tbody>
+        <tr>
+        <td rowspan="8" style="width: 241px; text-align: center">
+            <img alt height="300" width="199" id="coverImage" style = "border: none"  >
+        </td>
+
+        <td rowspan="8" style="width: 260px; text-align: left; font-size: 1.3em">
+           
+            <p id = "Title" margin="2px">  </p>
+            <p id = "Author"> </p>
+            <p id = "ISBN13" > </p>
+            <p id = "PublishedDate" > </p>
+            <p id = "NumPages" > </p>
+            <p id = "AvgRtg" > </p>
+            
+            
+            <p id = "Price" > </p>
+            <p ><a id = "BuyLink" href=""></a></p>
+          
+        </td>
+
+        <td rowspan="8" style="width: 150px; text-align: left; font-size: 1.3em">
+            <p id = "TopEmotion" style="text-align: center;  color: #006600"></p>
+            <ol id = "TopEmotionlist">
         
-    </select>
+              </ol>
+        </td>
+    </tr>
+
+    </tbody>
+    </table>
+ 
     <br>
     <br>
-    <!-- <img id="coverImage" alt="Harry Potter and the Sorcerer's Stone (Harry Potter, #1)" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1474154022l/3._SY475_.jpg"> -->
    <div id="bookinfo">
-    <p style="float: left; clear: left" padding: "10px" border:"10px"><img id="coverImage" src=""  padding: "10px" border="10px"></p>
 
-    <p id = "Title" margin="2px">  </p>
-    <p id = "Author" border="2px"> </p>
-    <p id = "ISBN13" border="2px"> </p>
-    <p id = "PublishedDate" border="2px"> </p>
-    <p id = "NumPages" border="2px"> </p>
-    <p id = "AvgRtg" border="2px"> </p>
-    
-    <p  border="2px"><a id = "BuyLink" href=""></a></p>
-    <p id = "Price" border="2px"> </p>
-    <p id = "Currency" border="2px"> </p>
-
+    <p id = "Descriptionhead" style="text-align: left; font-weight: bold; font-size: large; font-family: Arial Rounded MT Bold;"></p>
+    <p id = "Description" style="width: 750px"></p>
     <br>
     <br>
-    <br>
-    <br>
-    <p id = "Description" border="2px"></p>
-    
     </div>
-    <!-- append visualization svg to this div-->
     
     <div id="container">
         <div id ='leftrowlist'>   </div>
@@ -95,25 +212,40 @@ p {
         <div class="col-sm-12 col-md-12 col-lg-4 sidenav" id ='rightrow'></div>
 
     </div> </div>
-<div class = "row">
-    <div class="col-sm-6 col-lg-6"></div>
-    <p id = "TopEmotion"></p>
-    <ol id = "TopEmotionlist">
 
-      </ol>
-    <div class="col-sm-6 col-lg-6"></div>
-    <p id = "SimilarBooks"></p>
-    <ol id = "SimilarBookslist">
+    <div id="container">
+        <div id ='leftrowlist2'>   </div>
+    <div class="row content">
+    
+        <div class="col-lg-7 text-left" id ='leftrow2'>   </div>
+        <div class="col-sm-12 col-md-12 col-lg-4 sidenav" id ='rightrow2'></div>
 
-      </ol>
-  
-<!--  -->
-
-
-</div>
+    </div> </div>
 
 
 <script>
+
+// Function for toggling the dropdown list and reduing the search list
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+function filterFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("myDropdown");
+  a = div.getElementsByTagName("a");
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
+}
+
     var svgWidth = 650;
     var svgHeight = 400;
     
@@ -144,13 +276,13 @@ p {
     var svglist = d3
     .select("#leftrowlist")
     .append("svg")
-    .attr("height", 110)
+    .attr("height", 140)
     .attr("width", 1000)
     .append("g")
-    .attr("transform", "translate(" + chartMargin.left + "," + chartMargin.top + ")")
+    .attr("transform", "translate(" + 10 + "," + 10 + ")")
     .attr("class", "svg");
 
-    var svg = d3
+    var svg = d3 //emotion svg for book
     .select("#leftrow")
     .append("svg")
     .attr("height", 450)
@@ -160,8 +292,29 @@ p {
     .attr("transform", "translate(" + chartMargin.left + "," + chartMargin.top + ")")
     .attr("class", "svg");
 
-    var svg2 = d3
+    var svg2 = d3  //emotion svg for compare book
     .select("#rightrow")
+    .append("svg")
+    .attr("height", 450)
+    .attr("width", 1000)
+    .attr('preserveAspectRatio',"xMaxYMid")
+    .append("g")
+    .attr("transform", "translate(" + chartMargin.left + "," + chartMargin.top + ")")
+    .attr("class", "svg");
+
+
+    var svg3 = d3  //pos/neg svg for book
+    .select("#leftrow2")
+    .append("svg")
+    .attr("height", 450)
+    .attr("width", 770)
+    .append("g")
+    .attr('preserveAspectRatio',"xMinYMid")
+    .attr("transform", "translate(" + chartMargin.left + "," + chartMargin.top + ")")
+    .attr("class", "svg");
+
+    var svg4 = d3 //pos/neg svg for compare book
+    .select("#rightrow2")
     .append("svg")
     .attr("height", 450)
     .attr("width", 1000)
@@ -173,13 +326,11 @@ p {
     svg.call(tip);
     svg2.call(tip);
     XLinearScale.domain([0,20]);
-   // yLinearScale.domain([0, .3]);
 
+//	var pathToCsv = "testschemawithisbn.csv";		// path to csv
+    var pathToCsv = "Final_result.csv";	
 
-    // Get the data
-	var pathToCsv = "testschemawithisbn.csv";		// path to csv
-
-
+//genrates page for the selected book
     function creategraph(data, selectedbook, allemotions, elem){ 
         d3.selectAll("path.line").remove();
         d3.selectAll("text").remove();
@@ -187,38 +338,70 @@ p {
         d3.selectAll("#leftaxis").remove();
         d3.selectAll("#bottomaxis").remove();
         d3.selectAll("li").remove();
-        // Title	Author	PublishedDate	NumPages	AvgRtg	Description	BuyLink	Price	Currency
-     
+        d3.selectAll("b").remove();
+        d3.selectAll("span").remove();
+        d3.select("#Descriptionhead").text("");
+       
        
         var mydata = data.filter(function(d) { return d.Title == selectedbook; });
+        mydata = mydata.slice(0,20);
         console.log(mydata)
         var apidata = mydata[0];
         var isbn = apidata["ISBN13"].split("'");
         isbn = isbn[isbn.length-2];
 
-        d3.select("#Title").text(" Title: " + apidata["Title"]);
-        d3.select("#Author").text(" Author: " + apidata["Author"]);
-        d3.select("#ISBN13").text(" ISBN: " + isbn);
-        if(apidata["PublishedDate"] != ""){d3.select("#PublishedDate").text(" Published Date: " + apidata["PublishedDate"]);}
-            else{d3.select("#PublishedDate").text("");};
-        if(apidata["NumPages"] != ""){d3.select("#NumPages").text(" Number of Pages: " + apidata["NumPages"])}
-             else{d3.select("#NumPages").text("");};
-        if(apidata["AvgRtg"] != ""){d3.select("#AvgRtg").text(" Rating: " + apidata["AvgRtg"]);}
-            else{d3.select("#AvgRtg").text("");};
-        if(apidata["Description"] != ""){d3.select("#Description").text(" Description: " + apidata["Description"]);}
+        d3.select("#TotalTitle").text(apidata['Title']);
+       d3.select("#Title").data(["Title: "]).append('b').text(function (d) { return d; }).style("color", "#006600");
+       d3.select("#Title").data([apidata["Title"]]).append('span').text(function (d) { return d; })
+      // d3.select("#Title").text(" Title: " + apidata["Title"]);
+
+
+      d3.select("#Author").data(["Author: "]).append('b').text(function (d) { return d; }).style("color", "#006600");
+      d3.select("#Author").data([apidata["Author"]]).append('span').text(function (d) { return d; })
+       // d3.select("#Author").text(" Author: " + apidata["Author"]);
+
+       
+      d3.select("#ISBN13").data(["ISBN: "]).append('b').text(function (d) { return d; }).style("color", "#006600");
+      d3.select("#ISBN13").data([isbn]).append('span').text(function (d) { return d; })
+   //     d3.select("#ISBN13").text(" ISBN: " + isbn);
+
+     d3.select("#PublishedDate").data(["Published Date: "]).append('b').text(function (d) { return d; }).style("color", "#006600");
+      d3.select("#PublishedDate").data([apidata["PublishedDate"]]).append('span').text(function (d) { return d; })
+       // if(apidata["PublishedDate"] != ""){d3.select("#PublishedDate").text(" Published Date: " + apidata["PublishedDate"]);}
+       //     else{d3.select("#PublishedDate").text("");};
+
+    if(apidata["NumPages"] != ""){d3.select("#NumPages").data(["NumPages: "]).append('b').text(function (d) { return d; }).style("color", "#006600");
+      d3.select("#NumPages").data([apidata["NumPages"]]).append('span').text(function (d) { return d; })}
+    else{d3.select("#NumPages").data(["NumPages: "]).append('b').text(function (d) { return ""; });
+      d3.select("#NumPages").data([apidata["NumPages"]]).append('span').text(function (d) { return ""; })};
+     //   if(apidata["NumPages"] != ""){d3.select("#NumPages").text(" Number of Pages: " + apidata["NumPages"])}
+      //       else{d3.select("#NumPages").text("");};
+
+      if(apidata["AvgRtg"] != ""){d3.select("#AvgRtg").data(["Avg Rating: "]).append('b').text(function (d) { return d; }).style("color", "#006600");
+      d3.select("#AvgRtg").data([apidata["AvgRtg"]]).append('span').text(function (d) { return d; })}
+    else{d3.select("#AvgRtg").data(["AvgRtg: "]).append('b').text(function (d) { return ""; });
+      d3.select("#AvgRtg").data([apidata["AvgRtg"]]).append('span').text(function (d) { return ""; })};
+      //  if(apidata["AvgRtg"] != ""){d3.select("#AvgRtg").text(" Rating: " + apidata["AvgRtg"]);}
+      //      else{d3.select("#AvgRtg").text("");};
+      
+        if(apidata["Description"] != ""){d3.select("#Description").text( apidata["Description"]);}
             else{d3.select("#Description").text("");};
+
         if(apidata["BuyLink"] != ""){d3.select("#BuyLink").text(" Click here to buy");
         d3.select("#BuyLink").on("click", function() { window.open(apidata["BuyLink"]); });}
              else{d3.select("#BuyLink").text("");};
-        
-        if(apidata["Price"] != ""){d3.select("#Price").text(" Price: " + apidata["Price"] + " " + apidata["Currency"]);}
-        else{d3.select("#Price").text("");};
+        if( apidata["Description"] != ""){
+        d3.select("#Descriptionhead").text("Description");};
 
 
-        d3.select("#TopEmotion").text("Top Emotions:");
-        d3.select("#SimilarBooks").text( "Most Similar Books:");
+    if(apidata["Price"] != ""){d3.select("#Price").data(["Price: "]).append('b').text(function (d) { return d; }).style("color", "#006600");
+      d3.select("#Price").data([apidata["Price"] + " " + apidata["Currency"]]).append('span').text(function (d) { return d; })}
+    else{d3.select("#Price").data(["Price: "]).append('b').text(function (d) { return ""; });
+      d3.select("#Price").data([apidata["Price"]]).append('span').text(function (d) { return ""; })};
 
 
+        d3.select("#TopEmotion").append('b').text("Top Emotions:");
+  
 
         d3.select("#TopEmotionlist")
       .selectAll('myOptions')
@@ -229,53 +412,41 @@ p {
       .attr("value", function (d) { return d; });
 
 
-      d3.select("#SimilarBookslist")
-      .selectAll('myOptions')
-     	.data([apidata["Similar1"], apidata["Similar2"], apidata["Similar3"]])
-        .enter()
-    	.append('li')
-        .attr("id", function (d) { return data.filter(function(dd) { return dd.book == d; })[0]['Title']; })
-      .text(function (d) { return data.filter(function(dd) { return dd.book == d; })[0]['Title']; }) // text showed in the menu
-      .attr("value", function (d) { return d; });
 
-    svglist.append("text")      // text label for the x axis
-                    .attr("x", 100 )
-                    .attr("y",  10 )
-                    .style("text-anchor", "middle")
-                    .text("TOP EMOTIONS");
-    svglist.append("text")      // text label for the x axis
-                    .attr("x", 500 )
-                    .attr("y",  10 )
-                    .style("text-anchor", "middle")
-                    .text("SIMILAR BOOKS");
-    var topemotionlist = [apidata["TopEmotion1"], apidata["TopEmotion2"], apidata["TopEmotion3"]];
+    svglist.append("text")     
+                    .attr("x", -5 )
+                    .attr("y",  15 )
+                    .style("text-anchor", "left")
+                    .style("font-family", "Arial Rounded MT Bold")
+                    .style("font-size", "1.3em")
+                    .text("Most Similar Books");
+  //  var topemotionlist = [apidata["TopEmotion1"], apidata["TopEmotion2"], apidata["TopEmotion3"]];
     var similarbooklist = [apidata["Similar1"], apidata["Similar2"], apidata["Similar3"]];
-    var listspacing = 0;
-    topemotionlist.forEach(function(topemotion){
-        svglist.append("text")      // text label for the x axis
-                    .attr("x", 100 )
-                    .attr("y",  listspacing*20+30 )
-                    .style("text-anchor", "middle")
-                    .text(topemotion);
-                    listspacing = listspacing +1;
-    });
+ 
 
-    var listspacing = 0;
+    var listspacing = 0; 
+    // add Open and Compare features for most similar books
+    console.log(similarbooklist);
+    var xx = data.filter(function(dd) { return dd.Title == similarbooklist[0]; });
+    console.log(xx);
     similarbooklist.forEach(function(simbook){
-        svglist.append("text")      // text label for the x axis
-                    .attr("x", 500 )
-                    .attr("y",  listspacing*20+30 )
-                    .style("text-anchor", "middle")
-                    .text(  data.filter(function(dd) { return dd.book == simbook; })[0]['Title'].slice(0,40))
+        svglist.append("text")     
+                    .attr("x", 120 )
+                    .attr("y",  listspacing*20+40 )
+                    .style("font-family", "Arial Rounded MT")
+                    .style("text-anchor", "left")
+                    .style("font-size", "1.3em")
+                    .text(  data.filter(function(dd) { return dd.Title == simbook; })[0]['Title'].slice(0,60))
 
 
-        svglist.append("text")      // text label for the x axis
-                    .attr("x", 700 )
-                    .attr("y",  listspacing*20+30 )
-                   .attr("id", data.filter(function(dd) { return dd.book == simbook; })[0]['Title']+"Compare")
-                    .style("text-anchor", "middle")
+        svglist.append("text")     
+                    .attr("x", 50 )
+                    .attr("y",  listspacing*20+40 )
+                   .attr("id", data.filter(function(dd) { return dd.Title == simbook; })[0]['Title']+"Compare")
+                    .style("text-anchor", "left")
                     .attr("text-decoration", "underline")
                     .style("stroke", "blue")
+                    .style("font-size", ".9em")
                     .text(  "Compare")
                     .on('mouseover',function(d,i){
 
@@ -290,16 +461,18 @@ p {
                                 d3.select(this)
                                 .style("color", "blue");
 
-                                    createsvggraph(data, this["id"].slice(0,-7), allemotions, svg2);})
+                                    createsvggraph(data, this["id"].slice(0,-7), allemotions, svg2)
+                                    createsvggraph(data, this["id"].slice(0,-7), ["positive", "negative"], svg4);})
 
 
-        svglist.append("text")      // text label for the x axis
-                    .attr("x", 800 )
-                    .attr("y",  listspacing*20+30 )
-                    .attr("id", data.filter(function(dd) { return dd.book == simbook; })[0]['Title']+"Open")
-                    .style("text-anchor", "middle")
+        svglist.append("text")      
+                    .attr("x", 5 )
+                    .attr("y",  listspacing*20+40 )
+                    .attr("id", data.filter(function(dd) { return dd.Title == simbook; })[0]['Title']+"Open")
+                    .style("text-anchor", "left")
                     .attr("text-decoration", "underline")
                     .style("stroke", "blue")
+                    .style("font-size", ".9em")
                     .text("Open")
                     .on('mouseover',function(d,i){
 
@@ -332,40 +505,15 @@ p {
                     listspacing = listspacing +1;
     });
 
-
-
-
-      d3.select("#SimilarBookslist")
-      .selectAll('li')
-      .on('mouseover',function(d,i){
-
-        d3.select(this)
-        .style("color", "red");})
-        .on('mouseout',function(d,i){
-
-        d3.select(this)
-        .style("color", "black");})
-        .on('click',function(d,i){
-
-        d3.select(this)
-        .style("color", "blue");
-        
-        var mydata2 = data.filter(function(d) { return d.Title == this["id"]; });
-
-        createsvggraph(data, this["id"], allemotions, svg2);
-
-
-        } );
-
-
         document.getElementById("coverImage").src = apidata["ImgURL"];
 
         createsvggraph(data, selectedbook, allemotions, elem);
+        createsvggraph(data, selectedbook, ["positive", "negative"], svg3);
 
 
    }
 
-
+//creates svg graph for a specific book and element
    function createsvggraph(data, selectedbook, allemotions, elem){ 
         elem.selectAll("path.line").remove();
         elem.selectAll("text").remove();
@@ -373,7 +521,7 @@ p {
         elem.selectAll("#leftaxis").remove();
         elem.selectAll("#bottomaxis").remove();
     var mydata = data.filter(function(d) { return d.Title == selectedbook; });
-
+    mydata = mydata.slice(0,20);
         var apidata = mydata[0];
     mycolor = 0;
         var ylegend = 40;
@@ -533,6 +681,7 @@ p {
 
    }
 
+//reads csv and calls function to add graphs
     d3.dsv(",", pathToCsv, function (d) {
       return {
 
@@ -551,7 +700,7 @@ p {
         Query: d["Query"],
         Filename: d["Filename"],
         ISBN13: d["ISBN13"],
-        Title: d["Title"],
+        Title: d["book_updated"],
         Author: d["Author"],
         PublishedDate: d["PublishedDate"],
         ImgURL: d["ImgURL"],
@@ -564,34 +713,55 @@ p {
         TopEmotion1: d["TopEmotion1"],
         TopEmotion2: d["TopEmotion2"],
         TopEmotion3: d["TopEmotion3"],
-        Similar1: d["Most Similar"],
-        Similar2: d["2nd Most Similar"],
-        Similar3: d["3rd Most Similar"]
+        Similar1: d["Most Similar Book"],
+        Similar2: d["2nd Most Similar Book"],
+        Similar3: d["3rd Most Similar Book"]
+
       }
     }).then(function (data) {
       console.log(data); // you should see the data in your browser's developer tools console 
       var allcolumns = Object.keys(data[0]);
         var allemotions = allcolumns.slice(1,11);
-       allemotions.splice(5,1);
-       allemotions.splice(5,1);
+
       console.log(allemotions);
+      allemotions = ["anger",  "anticipation" , "disgust",  "fear", "joy", "sadness",  "surprise", "trust"];
+      var posneg = ["positive", "negative"];
+
    // add the options to the button
    var distinctbooks = [...new Set(data.map(x=> x.Title))];
    distinctbooks = distinctbooks.sort();
-   //selectedbook = data[0]['Title']
-   d3.select("#dropdowns")
+ 
+       console.log(distinctbooks);
+//generate initial page
+  creategraph(data, distinctbooks[0], allemotions, svg); 
+
+    d3.select("#myDropdown")
       .selectAll('myOptions')
      	.data(distinctbooks)
       .enter()
-    	.append('option')
+        .append('a')
       .text(function (d) { return d; }) // text showed in the menu
-      .attr("value", function (d) { return d; }) // corresponding value returned by the button
+      .attr("id", function (d) { return d; })
+      .attr("value", function (d) { return d; })// corresponding value returned by the button
+      .attr("class", "myopt")    
+      .on('mouseover',function(d,i){
 
-      const Selector = document.getElementById('dropdowns');
-      Selector.addEventListener('change', (e) => {  selectedbook = e.target.value; 
-        
-        creategraph(data, selectedbook, allemotions, svg);});
-      
+            d3.select(this)
+            .style("color", "red");
+            ;})
+        .on('mouseout',function(d,i){
+
+            d3.select(this)
+            .style("color", "black");})
+        .on('click',function(d,i){
+            
+            d3.select(this)
+            .style("color", "blue");
+            console.log(this)
+           
+            creategraph(data, this["id"], allemotions, svg)
+            myFunction();});
+    
 
 
     }).catch(function (error) {
